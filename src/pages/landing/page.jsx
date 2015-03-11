@@ -1,28 +1,37 @@
 import React from "react";
 import { getData } from "../../common/request.js";
 
+import Reflux from 'reflux';
+import actions from './actions';
+import store from './store';
 
-let LandingPage = React.createClass({
-  statics: {
-    fetchData(params) {
-      return getData("/landing");
-    }
+
+
+
+export default React.createClass({
+  displayName: "Letters",
+
+  mixins: [Reflux.connect(store, 'store')],
+
+  // Pull initial state from store
+  getInitialState: function ():any {
+    return {
+      store: store.getData()
+    };
   },
 
-  componentWillMount() {
-    console.log("[LandingPage] will mount with server response: ", this.props.data.landing);
+  click: function (i) {
+    actions.selectLetter(this.state.store.abc[i]);
   },
 
-  render() {
-    let { title } = this.props.data.landing;
-
-    return (
-      <div id="landing-page">
-        <h1>{title}</h1>
-      </div>
-    );
+  render: function ():any {
+    return <div>
+      <h4 style={{color: "#aaa"}}>{this.state.store.result}</h4>
+                    {this.state.store.abc.map(function (item, i) {
+                      return (
+                        <button onClick={this.click.bind(this, i)} key={i}>{item}</button>
+                      );
+                    }, this)}
+    </div>
   }
 });
-
-
-export default LandingPage;

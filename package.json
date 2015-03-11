@@ -45,6 +45,7 @@
     "es5-shim": "^4.1.0",
     "react": "^0.12.2",
     "react-router": "^0.12.4",
+    "reflux": "^0.2.1",
     "xhr": "^2.0.1"
   },
   "browserify": {
