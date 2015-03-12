@@ -26,15 +26,14 @@ export default React.createClass({
 
   render: function () {
     return <div>
-      <h4 style={{color: "#aaa"}}>{this.state.store.result}</h4>
+      <h1>{this.state.store.result}</h1>
 
-      <span>{ this.state.store.state === 'ok' ? this.state.store.abc.map(function (item, i) {
+      <span>{this.state.store.state === 'win' ? 'WINNER!' : this.state.store.state === 'ok' ? this.state.store.abc.map(function (item, i) {
                             return (
                               <button onClick={this.click.bind(this, i)} >{item}</button>
 
                             );
                           }, this): 'U LOOZE!' }</span>
-    { this.state.store.state === 'ok' ? <div>Only {this.state.store.chances} chances left!</div> : ''}
 
     </div>
   }

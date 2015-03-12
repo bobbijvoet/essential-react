@@ -3,7 +3,7 @@ import actions from './actions';
 
 
 // Some constants for determining state; will be exported on store too
-var STATE_WIN = 'loading',
+var STATE_WIN = 'win',
   STATE_OK = 'ok',
   STATE_FAIL = 'loser';
 
@@ -24,7 +24,7 @@ module.exports = Reflux.createStore({
 
   abc: [],
 
-  words: ['albatros'],
+  words: ['garage', 'echo', 'rose', 'checkpoint', 'sexiest'],
 
   currentWord: '',
   currentResult: '',
@@ -67,12 +67,15 @@ module.exports = Reflux.createStore({
     }
 
 
+  console.log(this.currentResult.indexOf('*'))
     store = {
-      state: this.chances > 0 ? STATE_OK : STATE_FAIL,
+      state: this.currentResult.indexOf('*') === -1 ? STATE_WIN : this.chances > 0 ? STATE_OK : STATE_FAIL,
       abc: this.abc,
       result: this.currentResult,
       chances: this.chances
     };
+
+    console.log(store);
 
     this.trigger(store);
 
