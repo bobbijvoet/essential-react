@@ -5,7 +5,7 @@ import actions from './actions';
 // Some constants for determining state; will be exported on store too
 var STATE_WIN = 'loading',
   STATE_OK = 'ok',
-  STATE_FAIL = 'err';
+  STATE_FAIL = 'loser';
 
 // Create a private variable to store the store's state
 var store = {
@@ -28,18 +28,24 @@ module.exports = Reflux.createStore({
 
   currentWord: '',
   currentResult: '',
-  chances:8,
+  chances: 12,
+
+
+  reset: function () {
+
+  },
 
   // Add some getters
   getData: function () {
     this.currentWord = this.words[0];
     this.currentResult = this.words[0].replace(/\D/g, '*');
-    console.log(this.currentResult);
-    this.abc = "abcdefghijklmnopqrstuvwxyz".split('');
+    this.abc = 'abcdefghijklmnopqrstuvwxyz'.split('');
     return store = {
       abc: this.abc,
       word: this.currentWord,
-      result: this.currentResult
+      result: this.currentResult,
+      state: STATE_OK,
+      chances: this.chances
     };
   },
   selectLetter: function (letter) {
@@ -50,20 +56,22 @@ module.exports = Reflux.createStore({
 
     while ((match = this.currentWord.indexOf(letter, i)) > -1) {
       this.currentResult = this.currentResult.substr(0, match) + letter + this.currentResult.substr(match + 1);
-      fail = !(match > -1 && fail);
+      if (match > -1 && fail) {
+        fail = false;
+      }
+
       i++;
     }
     if (fail) {
-      this.chances --;
-
-      console.log('fail', this.chances);
+      this.chances--;
     }
 
 
     store = {
-      state: STATE_OK,
+      state: this.chances > 0 ? STATE_OK : STATE_FAIL,
       abc: this.abc,
-      result: this.currentResult
+      result: this.currentResult,
+      chances: this.chances
     };
 
     this.trigger(store);

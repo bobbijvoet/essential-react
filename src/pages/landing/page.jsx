@@ -24,14 +24,18 @@ export default React.createClass({
     actions.selectLetter(this.state.store.abc[i]);
   },
 
-  render: function ():any {
+  render: function () {
     return <div>
       <h4 style={{color: "#aaa"}}>{this.state.store.result}</h4>
-                    {this.state.store.abc.map(function (item, i) {
-                      return (
-                        <button onClick={this.click.bind(this, i)} key={i}>{item}</button>
-                      );
-                    }, this)}
+
+      <span>{ this.state.store.state === 'ok' ? this.state.store.abc.map(function (item, i) {
+                            return (
+                              <button onClick={this.click.bind(this, i)} >{item}</button>
+
+                            );
+                          }, this): 'U LOOZE!' }</span>
+    { this.state.store.state === 'ok' ? <div>Only {this.state.store.chances} chances left!</div> : ''}
+
     </div>
   }
 });
